@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.minecraftstatus.viewModel.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:background="@color/Background"
+            android:text="마인크래프트 서버"
+            android:textColor="@color/Primary"
+            android:gravity="center"
+
+            android:elevation="5dp"
+            tools:ignore="MissingConstraints" />
+
+
+        <FrameLayout
+            android:id="@+id/mainFrameLayout"
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/navigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:itemBackground="@color/white"
+            android:elevation="5dp"
+            app:itemIconTint="@drawable/menu_click_color"
+            app:itemTextColor="@drawable/menu_click_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/navi_menu"
+            tools:ignore="MissingConstraints" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,8 @@
+<resources>
+    <!-- Base application theme. -->
+    <!-- 변경된 소스 -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/Primary</item>
+    </style>
+</resources>
