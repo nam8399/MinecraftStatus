@@ -94,6 +94,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
                     serverInputHost.value = jsonObject.get("host").toString()
                     serverVersion.value = "오프라인"
                     serverPeople.value = "오프라인"
+
                     online = false
                 }
 
