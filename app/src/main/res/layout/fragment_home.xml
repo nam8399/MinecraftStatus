@@ -295,10 +295,11 @@
                         android:text="서버 종류">
                     </TextView>
                     <Spinner
-                        android:id="@+id/server_edition_off"
+                        android:id="@+id/server_edition_spinner"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:text="자바"
+                        android:selectedItemPosition="@={viewModel.serverEditionIndex}"
                         android:gravity="left|center"
                         android:layout_marginRight="20dp"
                         android:textColor="@color/black"

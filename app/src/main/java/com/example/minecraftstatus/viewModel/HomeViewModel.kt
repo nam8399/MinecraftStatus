@@ -34,6 +34,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
     var serverInputHost = MutableLiveData<String>()
     var isServerAdd = MutableLiveData<Boolean>()
     var serverName = MutableLiveData<String>()
+    var serverEditionIndex = MutableLiveData<Int>()
 
     private val _event = MutableLiveData<Event<Boolean>>()
 
@@ -47,6 +48,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
         serverInputHost.value = ""
         serverName.value = ""
         isServerAdd.value = false
+        serverEditionIndex.value = 0
     }
 
     val event: LiveData<Event<Boolean>>
@@ -55,6 +57,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
     fun onEvent(isAdd : Boolean) {
         _event.value = Event(isAdd)
     }
+
 
 
     fun getMineacraftServer() {
@@ -79,6 +82,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
                 Log.d(title, jsonObject.get("online").toString())
 
                 onEvent(true) // view로 이벤트 전달해서 서버화면 변경
+                Log.d(title, "serverEditionIndex : " + serverEditionIndex.value)
 
                 if (jsonObject.get("online").toString().equals("true")) {
                     isServerAdd.value = true

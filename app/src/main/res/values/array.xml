@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="editionList">
+        <item>자바에디션(JE)</item>
+        <item>베드락에디션(BE)</item>
+    </string-array>
+</resources>
