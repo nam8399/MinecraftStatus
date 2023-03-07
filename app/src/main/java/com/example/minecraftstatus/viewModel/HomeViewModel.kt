@@ -33,6 +33,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
     var serverPeople = MutableLiveData<String>()
     var serverInputHost = MutableLiveData<String>()
     var isServerAdd = MutableLiveData<Boolean>()
+    var serverName = MutableLiveData<String>()
 
     private val _event = MutableLiveData<Event<Boolean>>()
 
@@ -44,6 +45,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
         serverVersion.value = ""
         serverPeople.value = ""
         serverInputHost.value = ""
+        serverName.value = ""
         isServerAdd.value = false
     }
 
