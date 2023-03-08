@@ -24,8 +24,6 @@
             android:text="마인크래프트 서버"
             android:textColor="@color/Primary"
             android:gravity="center"
-
-            android:elevation="5dp"
             tools:ignore="MissingConstraints" />
 
 
