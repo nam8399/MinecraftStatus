@@ -5,9 +5,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
-import com.example.minecraftstatus.Model.EventObserver
 import com.example.minecraftstatus.R
-import com.example.minecraftstatus.View.Fragment.AboutFragment
+import com.example.minecraftstatus.View.Fragment.UserFragment
 import com.example.minecraftstatus.View.Fragment.HomeFragment
 import com.example.minecraftstatus.View.Fragment.ServerListFragment
 import com.example.minecraftstatus.databinding.ActivityMainBinding
@@ -38,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             when(item.itemId) {
                 R.id.homeFragment -> viewModel.setFragment(TAG_HOME, HomeFragment(), fragmentManager)
                 R.id.serverlistFragment -> viewModel.setFragment(TAG_SERVERLIST, ServerListFragment(), fragmentManager)
-                R.id.aboutFragment-> viewModel.setFragment(TAG_ABOUT, AboutFragment(), fragmentManager)
+                R.id.aboutFragment-> viewModel.setFragment(TAG_ABOUT, UserFragment(), fragmentManager)
             }
             true
         }

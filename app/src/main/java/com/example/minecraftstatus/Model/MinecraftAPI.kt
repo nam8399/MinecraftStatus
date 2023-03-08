@@ -10,4 +10,10 @@ interface MinecraftAPI {
 
     @GET("v2/status/java/{address}")
     suspend fun getSuspendJava(@Path("address") page: String): String
+
+    @GET("users/profiles/minecraft/{uid}")
+    suspend fun getSuspendUUID(@Path("uid") page: String): String
+
+    @GET("avatars/{uuid}")
+    suspend fun getSuspendSkin(@Path("uuid") page: String): String
 }
