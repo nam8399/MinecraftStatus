@@ -21,7 +21,6 @@
             android:textSize="25dp"
             android:textStyle="bold"
             android:background="@color/Background"
-            android:text="마인크래프트 서버"
             android:textColor="@color/Primary"
             android:gravity="center"
             tools:ignore="MissingConstraints" />

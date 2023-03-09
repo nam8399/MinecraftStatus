@@ -76,7 +76,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application){
 
             } catch (e : Exception) {
                 Log.d(title, "통신 실패 : " + e.printStackTrace())
-                Toast.makeText(getApplication(), "올바른 주소값을 입력해주세요",Toast.LENGTH_SHORT).show()
+                Toast.makeText(getApplication(), "ID 혹은 인터넷 연결상태를 확인해주세요.",Toast.LENGTH_SHORT).show()
             }
         }
 
