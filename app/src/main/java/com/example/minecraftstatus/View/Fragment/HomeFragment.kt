@@ -19,6 +19,7 @@ import com.example.minecraftstatus.Model.EventObserver
 import com.example.minecraftstatus.R
 import com.example.minecraftstatus.View.Activity.MainActivity
 import com.example.minecraftstatus.View.Adapter.ViewPager2Adater
+import com.example.minecraftstatus.View.Dialog.CustomLoadingDialog
 import com.example.minecraftstatus.databinding.FragmentHomeBinding
 import com.example.minecraftstatus.viewModel.HomeViewModel
 
@@ -63,7 +64,13 @@ class HomeFragment() : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+
+        val loadingAnimDialog = CustomLoadingDialog(activity as MainActivity)
+        loadingAnimDialog.show()
+
         viewModel.getMineacraftServer()
+
+
 
         isSeverAdd = viewModel.isServerAdd.value.toString().equals("true")
 

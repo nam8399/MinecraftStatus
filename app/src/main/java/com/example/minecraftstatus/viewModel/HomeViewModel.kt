@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.minecraftstatus.Data.MyApplication
 import com.example.minecraftstatus.Model.Event
 import com.example.minecraftstatus.Model.MinecraftAPI
+import com.example.minecraftstatus.View.Dialog.CustomLoadingDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,6 +17,7 @@ import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.logging.Handler
 
 class HomeViewModel( application: Application) : AndroidViewModel(application){
 
@@ -76,6 +78,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
 
 
     fun getMineacraftServer() { // 입력한 마인크래프트 서버의 상태를 받아오는 함수
+
         var serverHost : String = serverHostTxt.value.toString()
         val retrofit = Retrofit.Builder().baseUrl("https://api.mcstatus.io/")
             .addConverterFactory(ScalarsConverterFactory.create())
@@ -117,6 +120,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
                 onEvent(true) // view로 이벤트 전달해서 서버 등록화면 변경
 
                 if (jsonObject.get("online").toString().equals("true")) {
+
                     isServerAdd.value = true
                     serverStatus.value = "온라인"
                     online = true
@@ -132,6 +136,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
                     }
                     serverPeople.value = jsonPlayers.get("online").toString() + " / " + jsonPlayers.get("max").toString()
                 } else {
+
                     serverStatus.value = "오프라인"
                     serverInputHost.value = jsonObject.get("host").toString()
                     serverVersion.value = "오프라인"
