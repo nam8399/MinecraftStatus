@@ -11,6 +11,9 @@ interface MinecraftAPI {
     @GET("v2/status/java/{address}")
     suspend fun getSuspendJava(@Path("address") page: String): String
 
+    @GET("v2/status/bedrock/{address}")
+    suspend fun getSuspendBE(@Path("address") page: String): String
+
     @GET("users/profiles/minecraft/{uid}")
     suspend fun getSuspendUUID(@Path("uid") page: String): String
 

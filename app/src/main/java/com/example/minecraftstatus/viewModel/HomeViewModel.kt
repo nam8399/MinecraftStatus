@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.minecraftstatus.Data.MyApplication
 import com.example.minecraftstatus.Model.Event
 import com.example.minecraftstatus.Model.MinecraftAPI
 import kotlinx.coroutines.CoroutineScope
@@ -56,11 +57,25 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
 
     fun onEvent(isAdd : Boolean) {
         _event.value = Event(isAdd)
+
+        if (!isAdd) {
+            MyApplication.prefs.setString("serverHost", "")
+            MyApplication.prefs.setString("serverName", "")
+            MyApplication.prefs.setString("serverEdition", "")
+
+            testText.value = ""
+            serverStatus.value = ""
+            serverHostTxt.value = ""
+            serverVersion.value = ""
+            serverPeople.value = ""
+            serverInputHost.value = ""
+            serverName.value = ""
+            serverEditionIndex.value = 0
+        }
     }
 
 
-
-    fun getMineacraftServer() {
+    fun getMineacraftServer() { // 입력한 마인크래프트 서버의 상태를 받아오는 함수
         var serverHost : String = serverHostTxt.value.toString()
         val retrofit = Retrofit.Builder().baseUrl("https://api.mcstatus.io/")
             .addConverterFactory(ScalarsConverterFactory.create())
@@ -70,8 +85,26 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
 
         CoroutineScope(Dispatchers.Main).launch { // 코루틴 사용하여 retorfit2 GET 호출
             try {
+                if ("".equals(serverHost) && "".equals(MyApplication.prefs.getString("serverHost", ""))) { // 저장된 메인 서버 주소값과 입력된 메인 서버 주소값이 없을경우
+                    return@launch
+                } else if (!"".equals(serverHost)){ // sharedPreferences에 메인 서버 값이 없을 경우 입력한 값으로 초기 셋팅
+                    MyApplication.prefs.setString("serverHost", serverHost)
+                    MyApplication.prefs.setString("serverName", serverName.value.toString())
+                    MyApplication.prefs.setString("serverEdition", serverEditionIndex.value.toString())
+                }
+
+                serverHost = MyApplication.prefs.getString("serverHost", "") // 사용자가 값을 저장한 상태로 폰을 껐다가 켰을때 serverHost가 초기화 될 상황을 감안해 변수에 값을 다시 넣어준다
+                serverName.value = MyApplication.prefs.getString("serverName", "") // 위와 마찬가지로 서버 이름도 넣어준다
+                serverEditionIndex.value = MyApplication.prefs.getString("serverEdition", "").toInt() // 서버 에디션 정보도 넣어준다
+
                 Log.d(title, serverHost)
-                val result = service.getSuspendJava(serverHost)
+                var result : String
+                if (serverEditionIndex.value == 0) {
+                    result = service.getSuspendJava(serverHost)
+                } else {
+                    result = service.getSuspendBE(serverHost)
+                }
+
 
                 Log.d(title, "onResponse 성공: " + result);
                 testText.value = result
@@ -81,8 +114,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
 
                 Log.d(title, jsonObject.get("online").toString())
 
-                onEvent(true) // view로 이벤트 전달해서 서버화면 변경
-                Log.d(title, "serverEditionIndex : " + serverEditionIndex.value)
+                onEvent(true) // view로 이벤트 전달해서 서버 등록화면 변경
 
                 if (jsonObject.get("online").toString().equals("true")) {
                     isServerAdd.value = true
@@ -93,7 +125,11 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
                     val jsonPlayers = JSONObject(jsonObject.get("players").toString())
 
                     serverInputHost.value = jsonObject.get("host").toString()
-                    serverVersion.value = jsonVersion.get("name_raw").toString()
+                    try {
+                        serverVersion.value = jsonVersion.get("name_raw").toString()
+                    } catch (e : Exception) {
+                        serverVersion.value = jsonVersion.get("name").toString()
+                    }
                     serverPeople.value = jsonPlayers.get("online").toString() + " / " + jsonPlayers.get("max").toString()
                 } else {
                     serverStatus.value = "오프라인"
@@ -114,5 +150,6 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
         }
 
     }
+
 
 }

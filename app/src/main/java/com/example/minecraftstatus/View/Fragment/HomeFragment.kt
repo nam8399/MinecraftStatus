@@ -57,11 +57,13 @@ class HomeFragment() : Fragment() {
 
     }
 
-    private fun initView() {
+    private fun initView() { // 홈 화면 뷰 초기화
         val viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        viewModel.getMineacraftServer()
 
         isSeverAdd = viewModel.isServerAdd.value.toString().equals("true")
 
@@ -109,7 +111,7 @@ class HomeFragment() : Fragment() {
         })
     }
 
-    private fun setupOnBoardingIndicators(){
+    private fun setupOnBoardingIndicators(){ // 건축강의 뷰 인디게이터 구성셋팅
         val indicators =
             arrayOfNulls<ImageView>(3)
 
@@ -133,7 +135,7 @@ class HomeFragment() : Fragment() {
         }
     }
 
-    private fun setCurrentOnboardingIndicator( index : Int){
+    private fun setCurrentOnboardingIndicator( index : Int){ // 건축 강의 인디게이터 뷰 이미지 셋팅
         var childCount = binding.indicators?.childCount
         for(i in  0 until childCount!!){
             var imageView = binding.indicators?.getChildAt(i) as ImageView

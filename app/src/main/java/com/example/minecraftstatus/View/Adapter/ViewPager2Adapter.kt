@@ -21,7 +21,12 @@ class ViewPager2Adater(var list : ArrayList<Int>,var context : Context)  : Recyc
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as viewHolder).image.setBackgroundColor(list.get(position))
+//        (holder as viewHolder).image.setBackgroundColor(list.get(position))
+        if(position == 0) {
+            (holder as viewHolder).image.setImageResource(R.drawable.banner_1)
+        } else if (position == 1) {
+            (holder as viewHolder).image.setBackgroundColor(list.get(position))
+        }
     }
 
     inner class viewHolder(var view : View) : RecyclerView.ViewHolder(view){
