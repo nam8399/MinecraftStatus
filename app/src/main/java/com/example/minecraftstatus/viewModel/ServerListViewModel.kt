@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.logging.Handler
 
-class HomeViewModel( application: Application) : AndroidViewModel(application){
+class ServerListViewModel( application: Application) : AndroidViewModel(application){
 
 // ViewModel()을 상속받을 경우
 // class MainViewModel():ViewModel(){}
@@ -27,7 +27,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
     //LiveData
 //값이 변경되는 경우 MutableLiveData로 선언한다.
 
-    private val title = "HomeViewModel"
+    private val title = "ServerListViewModel"
 
     var testText = MutableLiveData<String>()
     var serverStatus = MutableLiveData<String>()
@@ -63,9 +63,9 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
         _event.value = Event(isAdd)
 
         if (!isAdd) {
-            MyApplication.prefs.setString("serverHost", "")
-            MyApplication.prefs.setString("serverName", "")
-            MyApplication.prefs.setString("serverEdition", "")
+            MyApplication.prefs.setString("serverHost_list", "")
+            MyApplication.prefs.setString("serverName_list", "")
+            MyApplication.prefs.setString("serverEdition_list", "")
 
             testText.value = ""
             serverStatus.value = ""
@@ -91,19 +91,19 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
 
         CoroutineScope(Dispatchers.Main).launch { // 코루틴 사용하여 retorfit2 GET 호출
             try {
-                if ("".equals(serverHost) && "".equals(MyApplication.prefs.getString("serverHost", ""))) { // 저장된 메인 서버 주소값과 입력된 메인 서버 주소값이 없을경우
+                if ("".equals(serverHost) && "".equals(MyApplication.prefs.getString("serverHost_list", ""))) { // 저장된 메인 서버 주소값과 입력된 메인 서버 주소값이 없을경우
                     showDialog.value = false
                     return@launch
                 } else if (!"".equals(serverHost)){ // sharedPreferences에 메인 서버 값이 없을 경우 입력한 값으로 초기 셋팅
-                    MyApplication.prefs.setString("serverHost", serverHost)
-                    MyApplication.prefs.setString("serverName", serverName.value.toString())
-                    MyApplication.prefs.setString("serverEdition", serverEditionIndex.value.toString())
+                    MyApplication.prefs.setString("serverHost_list", serverHost)
+                    MyApplication.prefs.setString("serverName_list", serverName.value.toString())
+                    MyApplication.prefs.setString("serverEdition_list", serverEditionIndex.value.toString())
                 }
 
 
-                serverHost = MyApplication.prefs.getString("serverHost", "") // 사용자가 값을 저장한 상태로 폰을 껐다가 켰을때 serverHost가 초기화 될 상황을 감안해 변수에 값을 다시 넣어준다
-                serverName.value = MyApplication.prefs.getString("serverName", "") // 위와 마찬가지로 서버 이름도 넣어준다
-                serverEditionIndex.value = MyApplication.prefs.getString("serverEdition", "").toInt() // 서버 에디션 정보도 넣어준다
+                serverHost = MyApplication.prefs.getString("serverHost_list", "") // 사용자가 값을 저장한 상태로 폰을 껐다가 켰을때 serverHost가 초기화 될 상황을 감안해 변수에 값을 다시 넣어준다
+                serverName.value = MyApplication.prefs.getString("serverName_list", "") // 위와 마찬가지로 서버 이름도 넣어준다
+                serverEditionIndex.value = MyApplication.prefs.getString("serverEdition_list", "").toInt() // 서버 에디션 정보도 넣어준다
 
                 Log.d(title, serverHost)
                 var result : String

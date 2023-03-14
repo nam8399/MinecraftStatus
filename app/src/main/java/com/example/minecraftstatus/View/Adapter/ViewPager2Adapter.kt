@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ImageView.ScaleType
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minecraftstatus.R
 
@@ -24,8 +25,13 @@ class ViewPager2Adater(var list : ArrayList<Int>,var context : Context)  : Recyc
 //        (holder as viewHolder).image.setBackgroundColor(list.get(position))
         if(position == 0) {
             (holder as viewHolder).image.setImageResource(R.drawable.banner_1)
+            (holder as viewHolder).image.scaleType = ScaleType.CENTER_CROP
         } else if (position == 1) {
-            (holder as viewHolder).image.setBackgroundColor(list.get(position))
+            (holder as viewHolder).image.setImageResource(R.drawable.banner_2)
+            (holder as viewHolder).image.scaleType = ScaleType.CENTER_CROP
+        } else if (position ==2) {
+            (holder as viewHolder).image.setImageResource(R.drawable.banner_3)
+            (holder as viewHolder).image.scaleType = ScaleType.CENTER_CROP
         }
     }
 

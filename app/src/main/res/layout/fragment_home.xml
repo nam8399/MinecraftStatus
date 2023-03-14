@@ -408,7 +408,7 @@
                         <TextView
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            android:text="건축 강의"
+                            android:text="건축 꿀팁"
                             android:gravity="left|center"
                             android:paddingLeft="20dp"
                             android:textColor="@color/black"

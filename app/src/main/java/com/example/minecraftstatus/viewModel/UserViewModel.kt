@@ -30,6 +30,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application){
     var serverUID_after = MutableLiveData<String>()
     var serverUUID = MutableLiveData<String>()
     var serverHostTxt = MutableLiveData<String>()
+    var showDialog = MutableLiveData<Boolean>() // 다이얼로그를 띄우기 위한 LiveData 변수
 
     private val _event = MutableLiveData<Event<String>>()
 
@@ -39,6 +40,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application){
         serverUID_after.value = ""
         serverUUID.value = ""
         serverHostTxt.value = ""
+        showDialog.value = false
     }
 
     val event: LiveData<Event<String>>
@@ -51,6 +53,8 @@ class UserViewModel(application: Application) : AndroidViewModel(application){
 
 
     fun getMineacraftUUID() {
+        showDialog.value = true // 다이얼로그 띄우기
+
         var userID : String = serverUID.value.toString()
         val retrofit = Retrofit.Builder().baseUrl("https://api.mojang.com/")
             .addConverterFactory(ScalarsConverterFactory.create())
@@ -74,9 +78,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application){
 //                getMineacraftSkin(serverUUID.value.toString())
                 onEvent(serverUUID.value.toString())
 
+                showDialog.value = false // 다이얼로그 종료
             } catch (e : Exception) {
                 Log.d(title, "통신 실패 : " + e.printStackTrace())
                 Toast.makeText(getApplication(), "ID 혹은 인터넷 연결상태를 확인해주세요.",Toast.LENGTH_SHORT).show()
+                showDialog.value = false // 다이얼로그 종료
             }
         }
 

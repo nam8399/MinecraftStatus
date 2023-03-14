@@ -130,9 +130,9 @@ class HomeFragment() : Fragment() {
             indicators[i] = ImageView(activity as MainActivity)
             indicators[i]?.setImageDrawable(
                 ContextCompat.getDrawable(
-                activity as MainActivity,
-                R.drawable.onboarding_indicator_inactive
-            ))
+                    activity as MainActivity,
+                    R.drawable.onboarding_indicator_inactive
+                ))
 
             indicators[i]?.layoutParams = layoutParams
 
