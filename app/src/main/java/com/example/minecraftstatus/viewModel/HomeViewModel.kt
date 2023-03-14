@@ -39,6 +39,8 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
     var serverName = MutableLiveData<String>()
     var serverEditionIndex = MutableLiveData<Int>()
 
+    var showDialog = MutableLiveData<Boolean>() // 다이얼로그를 띄우기 위한 LiveData 변수
+
     private val _event = MutableLiveData<Event<Boolean>>()
 
 
@@ -52,6 +54,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
         serverName.value = ""
         isServerAdd.value = false
         serverEditionIndex.value = 0
+        showDialog.value = false
     }
 
     val event: LiveData<Event<Boolean>>
@@ -78,6 +81,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
 
 
     fun getMineacraftServer() { // 입력한 마인크래프트 서버의 상태를 받아오는 함수
+        showDialog.value = true // 다이얼로그 띄우기
 
         var serverHost : String = serverHostTxt.value.toString()
         val retrofit = Retrofit.Builder().baseUrl("https://api.mcstatus.io/")
@@ -95,6 +99,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
                     MyApplication.prefs.setString("serverName", serverName.value.toString())
                     MyApplication.prefs.setString("serverEdition", serverEditionIndex.value.toString())
                 }
+
 
                 serverHost = MyApplication.prefs.getString("serverHost", "") // 사용자가 값을 저장한 상태로 폰을 껐다가 켰을때 serverHost가 초기화 될 상황을 감안해 변수에 값을 다시 넣어준다
                 serverName.value = MyApplication.prefs.getString("serverName", "") // 위와 마찬가지로 서버 이름도 넣어준다
@@ -145,12 +150,15 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
                     online = false
                 }
 
+                showDialog.value = false // 다이얼로그 종료
+
                 if (online) {
 
                 }
             } catch (e : Exception) {
                 Log.d(title, "통신 실패 : " + e.printStackTrace())
                 Toast.makeText(getApplication(), "올바른 주소값을 입력해주세요",Toast.LENGTH_SHORT).show()
+                showDialog.value = false // 다이얼로그 종료
             }
         }
 

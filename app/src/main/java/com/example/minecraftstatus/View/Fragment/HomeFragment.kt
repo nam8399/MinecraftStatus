@@ -1,6 +1,7 @@
 package com.example.minecraftstatus.View.Fragment
 
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -63,10 +65,6 @@ class HomeFragment() : Fragment() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-
-
-        val loadingAnimDialog = CustomLoadingDialog(activity as MainActivity)
-        loadingAnimDialog.show()
 
         viewModel.getMineacraftServer()
 
@@ -157,6 +155,7 @@ class HomeFragment() : Fragment() {
     }
 
     fun observerServerStatus() {
+        val loadingAnimDialog = CustomLoadingDialog(activity as MainActivity)
         binding.viewModel?.apply {
             event.observe(viewLifecycleOwner, EventObserver {
                 if (it) {
@@ -169,7 +168,16 @@ class HomeFragment() : Fragment() {
 
             })
 
+            showDialog.observe(viewLifecycleOwner, Observer { // showDialog 변수를 observing 하면서 다이얼로그 show 및 dismiss
+                if (it) {
+                    loadingAnimDialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    loadingAnimDialog.show()
+                } else {
+                    loadingAnimDialog.dismiss()
+                }
+            })
         }
+
     }
 
 }

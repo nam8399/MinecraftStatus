@@ -14,7 +14,7 @@
 
     <item
         android:id="@+id/aboutFragment"
-        android:title="마이페이지"
-        android:icon="@drawable/ic_info"/>
+        android:title="스킨 검색"
+        android:icon="@drawable/ic_search"/>
 
 </menu>
