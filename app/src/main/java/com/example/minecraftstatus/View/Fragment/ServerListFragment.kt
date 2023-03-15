@@ -66,6 +66,8 @@ class ServerListFragment() : Fragment() {
 
         viewModel.getMineacraftServer()
 
+        Applica
+
 
         binding.serverEditionSpinner.adapter = ArrayAdapter.createFromResource(
             activity as MainActivity,
