@@ -14,12 +14,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.example.minecraftstatus.Data.BoardItem
+import com.example.minecraftstatus.Data.MyApplication
 import com.example.minecraftstatus.Model.EventObserver
 import com.example.minecraftstatus.R
 import com.example.minecraftstatus.View.Activity.MainActivity
+import com.example.minecraftstatus.View.Adapter.BoardAdapter
 import com.example.minecraftstatus.View.Adapter.ViewPager2Adater
 import com.example.minecraftstatus.View.Dialog.CustomLoadingDialog
 import com.example.minecraftstatus.databinding.FragmentHomeBinding
@@ -66,7 +70,6 @@ class ServerListFragment() : Fragment() {
 
         viewModel.getMineacraftServer()
 
-        Applica
 
 
         binding.serverEditionSpinner.adapter = ArrayAdapter.createFromResource(
@@ -74,6 +77,18 @@ class ServerListFragment() : Fragment() {
             R.array.editionList,
             android.R.layout.simple_spinner_dropdown_item
         )
+
+        val itemList = ArrayList<BoardItem>()
+
+        itemList.add(BoardItem("","","",""))
+        itemList.add(BoardItem("","","",""))
+        itemList.add(BoardItem("","","",""))
+
+        val boardAdapter = BoardAdapter(itemList)
+        boardAdapter.notifyDataSetChanged()
+
+        binding.rvBoard.adapter = boardAdapter
+        binding.rvBoard.layoutManager = LinearLayoutManager(activity as MainActivity, LinearLayoutManager.VERTICAL, false)
     }
 
 
