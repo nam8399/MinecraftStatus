@@ -105,7 +105,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
                 serverName.value = MyApplication.prefs.getString("serverName", "") // 위와 마찬가지로 서버 이름도 넣어준다
                 serverEditionIndex.value = MyApplication.prefs.getString("serverEdition", "").toInt() // 서버 에디션 정보도 넣어준다
 
-                Log.d(title, serverHost)
+                Log.d(title, "host : " + serverHost + ", edition index : " + serverEditionIndex.value)
                 var result : String
                 if (serverEditionIndex.value == 0) {
                     result = service.getSuspendJava(serverHost)

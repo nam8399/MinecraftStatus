@@ -7,28 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.CompositePageTransformer
-import androidx.viewpager2.widget.MarginPageTransformer
-import androidx.viewpager2.widget.ViewPager2
-import com.example.minecraftstatus.Data.BoardItem
-import com.example.minecraftstatus.Data.MyApplication
-import com.example.minecraftstatus.Model.EventObserver
+import com.example.minecraftstatus.Data.ServerItem
 import com.example.minecraftstatus.R
 import com.example.minecraftstatus.View.Activity.MainActivity
 import com.example.minecraftstatus.View.Adapter.BoardAdapter
-import com.example.minecraftstatus.View.Adapter.ViewPager2Adater
 import com.example.minecraftstatus.View.Dialog.CustomLoadingDialog
-import com.example.minecraftstatus.databinding.FragmentHomeBinding
 import com.example.minecraftstatus.databinding.FragmentServerListBinding
-import com.example.minecraftstatus.viewModel.HomeViewModel
 import com.example.minecraftstatus.viewModel.ServerListViewModel
 
 
@@ -78,23 +67,13 @@ class ServerListFragment() : Fragment() {
             android.R.layout.simple_spinner_dropdown_item
         )
 
-        val itemList = ArrayList<BoardItem>()
-
-        itemList.add(BoardItem("","","",""))
-        itemList.add(BoardItem("","","",""))
-        itemList.add(BoardItem("","","",""))
-
-        val boardAdapter = BoardAdapter(itemList)
-        boardAdapter.notifyDataSetChanged()
-
-        binding.rvBoard.adapter = boardAdapter
-        binding.rvBoard.layoutManager = LinearLayoutManager(activity as MainActivity, LinearLayoutManager.VERTICAL, false)
     }
 
 
 
     fun observerServerStatus() {
         val loadingAnimDialog = CustomLoadingDialog(activity as MainActivity)
+        val itemList = ArrayList<ServerItem>()
         binding.viewModel?.apply {
             showDialog.observe(viewLifecycleOwner, Observer { // showDialog 변수를 observing 하면서 다이얼로그 show 및 dismiss
                 if (it) {
@@ -103,6 +82,16 @@ class ServerListFragment() : Fragment() {
                 } else {
                     loadingAnimDialog.dismiss()
                 }
+            })
+            serverList.observe(viewLifecycleOwner, Observer {
+                itemList.add(it)
+
+                val boardAdapter = BoardAdapter(itemList)
+                boardAdapter.notifyDataSetChanged()
+
+                binding.rvBoard.adapter = boardAdapter
+                binding.rvBoard.layoutManager = LinearLayoutManager(activity as MainActivity, LinearLayoutManager.VERTICAL, false)
+
             })
         }
 

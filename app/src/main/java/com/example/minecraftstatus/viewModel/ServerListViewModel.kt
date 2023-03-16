@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.minecraftstatus.Data.MyApplication
+import com.example.minecraftstatus.Data.ServerItem
 import com.example.minecraftstatus.Model.Event
 import com.example.minecraftstatus.Model.MinecraftAPI
 import com.example.minecraftstatus.View.Dialog.CustomLoadingDialog
@@ -39,6 +40,7 @@ class ServerListViewModel( application: Application) : AndroidViewModel(applicat
     var serverName = MutableLiveData<String>()
     var serverEditionIndex = MutableLiveData<Int>()
     var showDialog = MutableLiveData<Boolean>() // 다이얼로그를 띄우기 위한 LiveData 변수
+    var serverList = MutableLiveData<ServerItem>()
 
     private val _event = MutableLiveData<Event<Boolean>>()
 
@@ -140,8 +142,8 @@ class ServerListViewModel( application: Application) : AndroidViewModel(applicat
                         serverVersion.value = jsonVersion.get("name").toString()
                     }
                     serverPeople.value = jsonPlayers.get("online").toString() + " / " + jsonPlayers.get("max").toString()
+                    serverList.value = ServerItem(serverStatus.value.toString(), serverInputHost.value.toString(), serverVersion.value.toString(), serverPeople.value.toString())
                 } else {
-
                     serverStatus.value = "오프라인"
                     serverInputHost.value = jsonObject.get("host").toString()
                     serverVersion.value = "오프라인"

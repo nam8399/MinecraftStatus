@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.minecraftstatus.Data.BoardItem
+import com.example.minecraftstatus.Data.ServerItem
 import com.example.minecraftstatus.R
 
-class BoardAdapter(val itemList: ArrayList<BoardItem>) :
+class BoardAdapter(val itemList: ArrayList<ServerItem>) :
     RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardViewHolder {
