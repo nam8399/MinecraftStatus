@@ -20,7 +20,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#DFECD3">
+            android:background="#F0F4CD">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/search_bar"
                 android:layout_width="match_parent"
@@ -80,7 +80,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/server_userinfo"
-                android:background="#DFECD3"
+                android:background="#F0F4CD"
                 android:text="homefragment" />
             <LinearLayout
                 android:id="@+id/server_userinfo"
@@ -177,7 +177,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/server_userinfo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:background="#DFECD3"
+                android:background="#F0F4CD"
                 android:layout_marginTop="15dp"
                 android:text="homefragment" />
             <ImageView

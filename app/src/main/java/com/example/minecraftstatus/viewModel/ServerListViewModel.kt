@@ -39,8 +39,10 @@ class ServerListViewModel( application: Application) : AndroidViewModel(applicat
     var isServerAdd = MutableLiveData<Boolean>()
     var serverName = MutableLiveData<String>()
     var serverEditionIndex = MutableLiveData<Int>()
+    var serverSlotIndex = MutableLiveData<Int>()
     var showDialog = MutableLiveData<Boolean>() // 다이얼로그를 띄우기 위한 LiveData 변수
     var serverList = MutableLiveData<ServerItem>()
+    var isListNull = MutableLiveData<Boolean>()
 
     private val _event = MutableLiveData<Event<Boolean>>()
 
@@ -80,8 +82,7 @@ class ServerListViewModel( application: Application) : AndroidViewModel(applicat
         }
     }
 
-
-    fun getMineacraftServer() { // 입력한 마인크래프트 서버의 상태를 받아오는 함수
+    fun getMinecraftServer() { // 입력한 마인크래프트 서버의 상태를 받아오는 함수
         showDialog.value = true // 다이얼로그 띄우기
 
         var serverHost : String = serverHostTxt.value.toString()
@@ -93,19 +94,125 @@ class ServerListViewModel( application: Application) : AndroidViewModel(applicat
 
         CoroutineScope(Dispatchers.Main).launch { // 코루틴 사용하여 retorfit2 GET 호출
             try {
-                if ("".equals(serverHost) && "".equals(MyApplication.prefs.getString("serverHost_list", ""))) { // 저장된 메인 서버 주소값과 입력된 메인 서버 주소값이 없을경우
+                if ("".equals(serverHost)) {
                     showDialog.value = false
                     return@launch
-                } else if (!"".equals(serverHost)){ // sharedPreferences에 메인 서버 값이 없을 경우 입력한 값으로 초기 셋팅
-                    MyApplication.prefs.setString("serverHost_list", serverHost)
-                    MyApplication.prefs.setString("serverName_list", serverName.value.toString())
-                    MyApplication.prefs.setString("serverEdition_list", serverEditionIndex.value.toString())
+                }
+
+                Log.d(title, serverHost)
+                var result : String
+                if (serverEditionIndex.value == 0) {
+                    result = service.getSuspendJava(serverHost)
+                } else {
+                    result = service.getSuspendBE(serverHost)
+                }
+
+                when (serverSlotIndex.value) { // 이미 슬롯에 리스트가 저장되어 있다면 토스트문구 띄우면서 리턴
+                    0 -> {
+                        if (!"".equals(MyApplication.prefs.getString("slot1", ""))) {
+                            Toast.makeText(getApplication(), "이미 저장된 리스트가 있습니다.", Toast.LENGTH_SHORT).show()
+                            showDialog.value = false
+                            return@launch
+                        } else {
+                            MyApplication.prefs.setString("slot1", serverHost)
+                        }
+                    }
+                    1 -> {
+                        if (!"".equals(MyApplication.prefs.getString("slot2", ""))) {
+                            Toast.makeText(getApplication(), "이미 저장된 리스트가 있습니다.", Toast.LENGTH_SHORT).show()
+                            showDialog.value = false
+                            return@launch
+                        } else {
+                            MyApplication.prefs.setString("slot2",serverHost)
+                        }
+                    }
+                    2 -> {
+                        if (!"".equals(MyApplication.prefs.getString("slot3", ""))) {
+                            Toast.makeText(getApplication(), "이미 저장된 리스트가 있습니다.", Toast.LENGTH_SHORT).show()
+                            showDialog.value = false
+                            return@launch
+                        } else {
+                            MyApplication.prefs.setString("slot3",serverHost)
+                        }
+                    }
+                    3 -> {
+                        if (!"".equals(MyApplication.prefs.getString("slot4", ""))) {
+                            Toast.makeText(getApplication(), "이미 저장된 리스트가 있습니다.", Toast.LENGTH_SHORT).show()
+                            showDialog.value = false
+                            return@launch
+                        } else {
+                            MyApplication.prefs.setString("slot4",serverHost)
+                        }
+                    }
+
                 }
 
 
-                serverHost = MyApplication.prefs.getString("serverHost_list", "") // 사용자가 값을 저장한 상태로 폰을 껐다가 켰을때 serverHost가 초기화 될 상황을 감안해 변수에 값을 다시 넣어준다
-                serverName.value = MyApplication.prefs.getString("serverName_list", "") // 위와 마찬가지로 서버 이름도 넣어준다
-                serverEditionIndex.value = MyApplication.prefs.getString("serverEdition_list", "").toInt() // 서버 에디션 정보도 넣어준다
+                Log.d(title, "onResponse 성공: " + result);
+                testText.value = result
+
+                val jsonObject = JSONObject(result)
+                var online : Boolean?
+
+                Log.d(title, jsonObject.get("online").toString())
+
+//                onEvent(true) // view로 이벤트 전달해서 서버 등록화면 변경되는
+
+                if (jsonObject.get("online").toString().equals("true")) {
+                    isServerAdd.value = true
+                    online = true
+
+                    serverObjectSetting(online, jsonObject)
+
+                    var slotName : String = ""
+                    if (serverSlotIndex.value == 0) {
+                        slotName = "저장슬롯 1"
+                    } else if (serverSlotIndex.value == 1) {
+                        slotName = "저장슬롯 2"
+                    } else if (serverSlotIndex.value == 2) {
+                        slotName = "저장슬롯 3"
+                    } else if (serverSlotIndex.value == 3) {
+                        slotName = "저장슬롯 4"
+                    }
+
+                    serverList.value = ServerItem(slotName, serverStatus.value.toString(), serverInputHost.value.toString(), serverVersion.value.toString(), serverPeople.value.toString())
+                } else {
+                    online = false
+
+                    serverObjectSetting(online, jsonObject)
+                }
+
+                showDialog.value = false // 다이얼로그 종료
+
+                if (online) {
+
+                }
+            } catch (e : Exception) {
+                Log.d(title, "통신 실패 : " + e.printStackTrace())
+                Toast.makeText(getApplication(), "올바른 주소값을 입력해주세요",Toast.LENGTH_SHORT).show()
+                showDialog.value = false // 다이얼로그 종료
+            }
+        }
+
+    }
+
+
+    fun getMinecraftServer(index : String, serverhost : String) { // 입력한 마인크래프트 서버의 상태를 받아오는 함수
+        showDialog.value = true // 다이얼로그 띄우기
+
+        var serverHost : String = serverhost
+        val retrofit = Retrofit.Builder().baseUrl("https://api.mcstatus.io/")
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create()).build();
+
+        val service = retrofit.create(MinecraftAPI::class.java);
+
+        CoroutineScope(Dispatchers.Main).launch { // 코루틴 사용하여 retorfit2 GET 호출
+            try {
+                if ("".equals(serverHost)) {
+                    showDialog.value = false
+                    return@launch
+                }
 
                 Log.d(title, serverHost)
                 var result : String
@@ -124,32 +231,20 @@ class ServerListViewModel( application: Application) : AndroidViewModel(applicat
 
                 Log.d(title, jsonObject.get("online").toString())
 
-                onEvent(true) // view로 이벤트 전달해서 서버 등록화면 변경
+//                onEvent(true) // view로 이벤트 전달해서 서버 등록화면 변경되는
 
                 if (jsonObject.get("online").toString().equals("true")) {
-
                     isServerAdd.value = true
-                    serverStatus.value = "온라인"
                     online = true
 
-                    val jsonVersion = JSONObject(jsonObject.get("version").toString())
-                    val jsonPlayers = JSONObject(jsonObject.get("players").toString())
+                    serverObjectSetting(online, jsonObject)
 
-                    serverInputHost.value = jsonObject.get("host").toString()
-                    try {
-                        serverVersion.value = jsonVersion.get("name_raw").toString()
-                    } catch (e : Exception) {
-                        serverVersion.value = jsonVersion.get("name").toString()
-                    }
-                    serverPeople.value = jsonPlayers.get("online").toString() + " / " + jsonPlayers.get("max").toString()
-                    serverList.value = ServerItem(serverStatus.value.toString(), serverInputHost.value.toString(), serverVersion.value.toString(), serverPeople.value.toString())
-                } else {
-                    serverStatus.value = "오프라인"
-                    serverInputHost.value = jsonObject.get("host").toString()
-                    serverVersion.value = "오프라인"
-                    serverPeople.value = "오프라인"
-
+                    serverList.value = ServerItem(index, serverStatus.value.toString(), serverInputHost.value.toString(), serverVersion.value.toString(), serverPeople.value.toString())
+               } else {
                     online = false
+
+                    serverObjectSetting(online, jsonObject)
+                    serverList.value = ServerItem(index, serverStatus.value.toString(), serverInputHost.value.toString(), serverVersion.value.toString(), serverPeople.value.toString())
                 }
 
                 showDialog.value = false // 다이얼로그 종료
@@ -164,6 +259,27 @@ class ServerListViewModel( application: Application) : AndroidViewModel(applicat
             }
         }
 
+    }
+
+    private fun serverObjectSetting(online : Boolean, jsonObject: JSONObject) {
+        if (online) {
+            val jsonVersion = JSONObject(jsonObject.get("version").toString())
+            val jsonPlayers = JSONObject(jsonObject.get("players").toString())
+
+            serverStatus.value = "온라인"
+            serverInputHost.value = jsonObject.get("host").toString()
+            try {
+                serverVersion.value = jsonVersion.get("name_raw").toString()
+            } catch (e : Exception) {
+                serverVersion.value = jsonVersion.get("name").toString()
+            }
+            serverPeople.value = jsonPlayers.get("online").toString() + " / " + jsonPlayers.get("max").toString()
+        } else {
+            serverStatus.value = "오프라인"
+            serverInputHost.value = jsonObject.get("host").toString()
+            serverVersion.value = "오프라인"
+            serverPeople.value = "오프라인"
+        }
     }
 
 
