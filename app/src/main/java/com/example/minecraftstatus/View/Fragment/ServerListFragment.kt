@@ -32,6 +32,7 @@ private const val title = "ServerListFragment"
 class ServerListFragment() : Fragment() {
     lateinit var binding : FragmentServerListBinding
     var isSeverAdd : Boolean = false
+    val itemList = ArrayList<ServerItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,11 +86,15 @@ class ServerListFragment() : Fragment() {
             android.R.layout.simple_spinner_dropdown_item
         )
 
+        binding.btnRefresh.setOnClickListener {
+            itemList.clear()
+            initView()
+        }
+
     }
 
     fun observerServerStatus() {
         val loadingAnimDialog = CustomLoadingDialog(activity as MainActivity)
-        val itemList = ArrayList<ServerItem>()
         binding.viewModel?.apply {
             showDialog.observe(viewLifecycleOwner, Observer { // showDialog 변수를 observing 하면서 다이얼로그 show 및 dismiss
                 if (it) {
