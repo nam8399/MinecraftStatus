@@ -14,6 +14,8 @@ import com.example.minecraftstatus.viewModel.MainViewModel
 import com.example.minecraftstatus.viewModel.MainViewModel.Companion.TAG_ABOUT
 import com.example.minecraftstatus.viewModel.MainViewModel.Companion.TAG_HOME
 import com.example.minecraftstatus.viewModel.MainViewModel.Companion.TAG_SERVERLIST
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,6 +30,13 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         viewModel.setFragment(TAG_HOME, HomeFragment(), fragmentManager)
+
+        // 1. 모바일광고 SDK 초기화
+        MobileAds.initialize(this) {}
+
+        // 2. 광고 띄우기\
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
 
         onClick()
     }

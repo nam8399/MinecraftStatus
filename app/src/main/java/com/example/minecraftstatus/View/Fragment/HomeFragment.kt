@@ -1,8 +1,11 @@
 package com.example.minecraftstatus.View.Fragment
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,16 +17,20 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.example.minecraftstatus.Model.EventObserver
 import com.example.minecraftstatus.R
 import com.example.minecraftstatus.View.Activity.MainActivity
+import com.example.minecraftstatus.View.Activity.WebviewActivity
 import com.example.minecraftstatus.View.Adapter.ViewPager2Adater
 import com.example.minecraftstatus.View.Dialog.CustomLoadingDialog
 import com.example.minecraftstatus.databinding.FragmentHomeBinding
 import com.example.minecraftstatus.viewModel.HomeViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -36,6 +43,8 @@ private val MIN_ALPHA = 0.5f // 어두워지는 정도를 나타낸 듯 하다.
 class HomeFragment() : Fragment() {
     lateinit var binding : FragmentHomeBinding
     var isSeverAdd : Boolean = false
+    lateinit var job : Job
+    var bannerPosition : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,11 +97,11 @@ class HomeFragment() : Fragment() {
         list.add(Color.parseColor("#ffff00"))
         list.add(Color.parseColor("#bdbdbd"))
         list.add(Color.parseColor("#0f9231"))
-        var adater = ViewPager2Adater(list,activity as MainActivity)
+        var adapter = ViewPager2Adater(list,activity as MainActivity)
 
 //        binding.viewpager2.offscreenPageLimit=3
         binding.viewpager2.getChildAt(0).overScrollMode=View.OVER_SCROLL_NEVER
-        binding.viewpager2.adapter = adater
+        binding.viewpager2.adapter = adapter
 
         setupOnBoardingIndicators()
         setCurrentOnboardingIndicator(0)
@@ -107,13 +116,62 @@ class HomeFragment() : Fragment() {
 
         binding.viewpager2.setPageTransformer(transform)
 
+        adapter.setItemClickListener(object : ViewPager2Adater.OnItemClickListener{
+            override fun onClick(v: View, position: Int) {
+                val intent = Intent(context, WebviewActivity::class.java)
+                if (position == 0) {
+                    intent.putExtra("url","https://www.youtube.com/watch?v=n1PkmOU7H2w")
+                } else if(position == 1) {
+                    intent.putExtra("url", "https://www.youtube.com/watch?v=hvydITbP-YE&t=95s")
+                } else if(position == 2) {
+                    intent.putExtra("url", "https://www.youtube.com/watch?v=n1PkmOU7H2w&t=2s")
+                }
+                startActivity(intent)
+            }
+        })
 
         binding.viewpager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position : Int){
+                super.onPageSelected(position)
+                bannerPosition = position
+
                 setCurrentOnboardingIndicator(position)
             }
 
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+                super.onPageScrollStateChanged(state)
+                when (state) {
+                    ViewPager2.SCROLL_STATE_IDLE ->{
+                        if (!job.isActive) scrollJobCreate()
+                    }
+
+                    ViewPager2.SCROLL_STATE_DRAGGING -> job.cancel()
+
+                    ViewPager2.SCROLL_STATE_SETTLING -> {}
+                }
+            }
         })
+
+        binding.imgMinelist.setOnClickListener {
+            intentWebView("https://minelist.kr/")
+        }
+        binding.imgAddon.setOnClickListener {
+            intentWebView("https://play.google.com/store/apps/details?id=com.kayenworks.mcpeaddons")
+        }
+        binding.imgSkin.setOnClickListener {
+            intentWebView("https://ko.namemc.com/minecraft-skins")
+        }
+        binding.imgCafe.setOnClickListener {
+            intentWebView("https://cafe.naver.com/minecraftgame")
+        }
+    }
+
+    fun intentWebView(url : String) {
+        val intent = Intent(context, WebviewActivity::class.java)
+        intent.putExtra("url",url)
+
+        startActivity(intent)
     }
 
     private fun setupOnBoardingIndicators(){ // 건축강의 뷰 인디게이터 구성셋팅
@@ -154,6 +212,16 @@ class HomeFragment() : Fragment() {
         }
     }
 
+    fun scrollJobCreate() { // auto Scroll을 위한 함수
+        job = lifecycleScope.launchWhenResumed {
+            delay(2000)
+            binding.viewpager2.setCurrentItem(++bannerPosition, true)
+            if (bannerPosition == 2) {
+                bannerPosition = -1
+            }
+        }
+    }
+
     fun observerServerStatus() {
         val loadingAnimDialog = CustomLoadingDialog(activity as MainActivity)
         binding.viewModel?.apply {
@@ -178,6 +246,16 @@ class HomeFragment() : Fragment() {
             })
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        scrollJobCreate()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        job.cancel()
     }
 
 }

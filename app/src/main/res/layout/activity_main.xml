@@ -11,17 +11,15 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@color/white"
+        android:background="@color/Background"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <TextView
+        <ImageView
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            android:background="@color/Background"
-            android:textColor="@color/Primary"
+            android:src="@drawable/title_minetree"
+            android:scaleType="centerInside"
             android:gravity="center"
             tools:ignore="MissingConstraints" />
 
@@ -30,7 +28,23 @@
             android:id="@+id/mainFrameLayout"
             android:layout_marginTop="50dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
+
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:layout_gravity="center"
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintBottom_toTopOf="@id/navigationView"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+            tools:ignore="MissingConstraints">
+        </com.google.android.gms.ads.AdView>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/navigationView"

@@ -21,6 +21,17 @@ class ViewPager2Adater(var list : ArrayList<Int>,var context : Context)  : Recyc
         return list.size
     }
 
+    interface OnItemClickListener {
+        fun onClick(v: View, position: Int)
+    }
+    // (3) 외부에서 클릭 시 이벤트 설정
+    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
+        this.itemClickListener = onItemClickListener
+    }
+    // (4) setItemClickListener로 설정한 함수 실행
+    private lateinit var itemClickListener : OnItemClickListener
+
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 //        (holder as viewHolder).image.setBackgroundColor(list.get(position))
         if(position == 0) {
@@ -32,6 +43,10 @@ class ViewPager2Adater(var list : ArrayList<Int>,var context : Context)  : Recyc
         } else if (position ==2) {
             (holder as viewHolder).image.setImageResource(R.drawable.banner_3)
             (holder as viewHolder).image.scaleType = ScaleType.CENTER_CROP
+        }
+
+        (holder as viewHolder).image.setOnClickListener {
+            itemClickListener.onClick(it, position)
         }
     }
 

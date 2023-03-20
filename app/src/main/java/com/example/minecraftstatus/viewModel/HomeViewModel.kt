@@ -1,14 +1,17 @@
 package com.example.minecraftstatus.viewModel
 
 import android.app.Application
+import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.minecraftstatus.Data.MyApplication
 import com.example.minecraftstatus.Model.Event
 import com.example.minecraftstatus.Model.MinecraftAPI
+import com.example.minecraftstatus.View.Activity.WebviewActivity
 import com.example.minecraftstatus.View.Dialog.CustomLoadingDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -161,7 +164,6 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
                 showDialog.value = false // 다이얼로그 종료
             }
         }
-
     }
 
 

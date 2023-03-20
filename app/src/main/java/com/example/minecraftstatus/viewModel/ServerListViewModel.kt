@@ -190,6 +190,16 @@ class ServerListViewModel( application: Application) : AndroidViewModel(applicat
             } catch (e : Exception) {
                 Log.d(title, "통신 실패 : " + e.printStackTrace())
                 Toast.makeText(getApplication(), "올바른 주소값을 입력해주세요",Toast.LENGTH_SHORT).show()
+
+                if (MyApplication.prefs.getString("slot1","").equals(serverHost)) {
+                    MyApplication.prefs.setString("slot1","")
+                } else if (MyApplication.prefs.getString("slot2","").equals(serverHost)) {
+                    MyApplication.prefs.setString("slot2","")
+                } else if (MyApplication.prefs.getString("slot3","").equals(serverHost)) {
+                    MyApplication.prefs.setString("slot3","")
+                } else if (MyApplication.prefs.getString("slot4","").equals(serverHost)) {
+                    MyApplication.prefs.setString("slot4","")
+                }
                 showDialog.value = false // 다이얼로그 종료
             }
         }
@@ -254,7 +264,17 @@ class ServerListViewModel( application: Application) : AndroidViewModel(applicat
                 }
             } catch (e : Exception) {
                 Log.d(title, "통신 실패 : " + e.printStackTrace())
-                Toast.makeText(getApplication(), "올바른 주소값을 입력해주세요",Toast.LENGTH_SHORT).show()
+                Toast.makeText(getApplication(), "서버 상태가 올바르지 않습니다. 다시 등록해주세요\n $serverHost", Toast.LENGTH_SHORT).show()
+
+                if (MyApplication.prefs.getString("slot1","").equals(serverHost)) {
+                    MyApplication.prefs.setString("slot1","")
+                } else if (MyApplication.prefs.getString("slot2","").equals(serverHost)) {
+                    MyApplication.prefs.setString("slot2","")
+                } else if (MyApplication.prefs.getString("slot3","").equals(serverHost)) {
+                    MyApplication.prefs.setString("slot3","")
+                } else if (MyApplication.prefs.getString("slot4","").equals(serverHost)) {
+                    MyApplication.prefs.setString("slot4","")
+                }
                 showDialog.value = false // 다이얼로그 종료
             }
         }
