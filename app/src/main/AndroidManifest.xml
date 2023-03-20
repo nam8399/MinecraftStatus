@@ -14,9 +14,6 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".SplashActivity"
-            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -30,12 +27,17 @@
             android:name=".View.Activity.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.MinecraftStatus">
+        </activity>
+        <activity
+            android:name=".View.Activity.SplashActivity"
+            android:theme="@style/Theme.MinecraftStatus"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
