@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.minecraftstatus.viewModel.UserViewModel" />
+            type="com.sikstree.minecraftstatus.viewModel.UserViewModel" />
     </data>
 
     <FrameLayout

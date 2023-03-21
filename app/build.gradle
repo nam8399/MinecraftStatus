@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.minecraftstatus'
+    namespace 'com.sikstree.minecraftstatus'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.minecraftstatus"
+        applicationId "com.sikstree.minecraftstatus"
         minSdk 24
         targetSdk 33
         versionCode 1

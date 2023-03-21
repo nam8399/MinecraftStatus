@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.minecraftstatus.viewModel.ServerListViewModel" />
+            type="com.sikstree.minecraftstatus.viewModel.ServerListViewModel" />
     </data>
 
     <FrameLayout
@@ -130,7 +130,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_marginLeft="20dp"
-                                android:src="@drawable/icon_rock"
+                                android:src="@drawable/icon_emerald"
                                 android:layout_gravity="center">
                             </ImageView>
                         </LinearLayout>
