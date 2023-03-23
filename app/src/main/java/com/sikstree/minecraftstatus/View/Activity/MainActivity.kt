@@ -1,6 +1,7 @@
 package com.sikstree.minecraftstatus.View.Activity
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private val viewModel : MainViewModel by viewModels()
     private val fragmentManager : FragmentManager = supportFragmentManager
+    var backPressedTime : Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +56,15 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
+    override fun onBackPressed() {
+        //2.5초이내에 한 번 더 뒤로가기 클릭 시
+        if (System.currentTimeMillis() - backPressedTime < 2500) {
+            super.onBackPressed()
+            return
+        }
+        Toast.makeText(this, "한번 더 클릭 시 홈으로 이동됩니다.", Toast.LENGTH_SHORT).show()
+        backPressedTime = System.currentTimeMillis()
+    }
 
 
 }
