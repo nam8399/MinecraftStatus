@@ -41,7 +41,7 @@ class ViewPager2Adater(var list : ArrayList<Int>,var context : Context)  : Recyc
             (holder as viewHolder).image.setImageResource(R.drawable.banner_2)
             (holder as viewHolder).image.scaleType = ScaleType.CENTER_CROP
         } else if (position ==2) {
-            (holder as viewHolder).image.setImageResource(R.drawable.banner_3)
+            (holder as viewHolder).image.setImageResource(R.drawable.banner_bed)
             (holder as viewHolder).image.scaleType = ScaleType.CENTER_CROP
         }
 

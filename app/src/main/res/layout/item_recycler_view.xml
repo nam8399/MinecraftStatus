@@ -53,7 +53,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/icon_grass"
+                android:src="@drawable/icon_status"
                 android:layout_gravity="center">
             </ImageView>
         </LinearLayout>
@@ -88,7 +88,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/icon_rock"
+                android:src="@drawable/icon_host"
                 android:layout_gravity="center">
             </ImageView>
         </LinearLayout>
@@ -123,7 +123,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/icon_emerald"
+                android:src="@drawable/icon_version"
                 android:layout_gravity="center">
             </ImageView>
         </LinearLayout>
@@ -158,7 +158,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/icon_diamond"
+                android:src="@drawable/icon_people"
                 android:layout_gravity="center">
             </ImageView>
         </LinearLayout>
