@@ -155,13 +155,16 @@ class HomeFragment() : Fragment() {
             intentWebView("https://minelist.kr/")
         }
         binding.imgAddon.setOnClickListener {
-            intentWebView("https://play.google.com/store/apps/details?id=com.kayenworks.mcpeaddons")
+            intentWebView("https://mcpedl.com/category/addons/")
         }
         binding.imgSkin.setOnClickListener {
             intentWebView("https://ko.namemc.com/minecraft-skins")
         }
         binding.imgCafe.setOnClickListener {
             intentWebView("https://cafe.naver.com/minecraftgame")
+        }
+        binding.textPrivacy.setOnClickListener {
+            intentWebView("https://nam8399.github.io/service/privacy")
         }
     }
 

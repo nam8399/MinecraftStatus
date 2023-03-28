@@ -109,7 +109,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:layout_marginLeft="20dp"
-                                    android:src="@drawable/icon_grass"
+                                    android:src="@drawable/icon_status"
                                     android:layout_gravity="center">
                                 </ImageView>
                             </LinearLayout>
@@ -145,7 +145,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:layout_marginLeft="20dp"
-                                    android:src="@drawable/icon_rock"
+                                    android:src="@drawable/icon_host"
                                     android:layout_gravity="center">
                                 </ImageView>
                             </LinearLayout>
@@ -181,7 +181,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:layout_marginLeft="20dp"
-                                    android:src="@drawable/icon_emerald"
+                                    android:src="@drawable/icon_version"
                                     android:layout_gravity="center">
                                 </ImageView>
                             </LinearLayout>
@@ -217,7 +217,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:layout_marginLeft="20dp"
-                                    android:src="@drawable/icon_diamond"
+                                    android:src="@drawable/icon_people"
                                     android:layout_gravity="center">
                                 </ImageView>
                             </LinearLayout>
@@ -282,7 +282,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:layout_marginLeft="20dp"
-                                    android:src="@drawable/icon_grass"
+                                    android:src="@drawable/icon_host"
                                     android:layout_gravity="center">
                                 </ImageView>
                             </LinearLayout>
@@ -319,7 +319,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:layout_marginLeft="20dp"
-                                    android:src="@drawable/icon_rock"
+                                    android:src="@drawable/icon_object"
                                     android:layout_gravity="center">
                                 </ImageView>
                             </LinearLayout>
@@ -357,7 +357,7 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:layout_marginLeft="20dp"
-                                    android:src="@drawable/icon_emerald"
+                                    android:src="@drawable/icon_name"
                                     android:layout_gravity="center">
                                 </ImageView>
                             </LinearLayout>
@@ -546,6 +546,19 @@
                             android:src="@drawable/img_woomagong"
                             android:background="@color/white">
                         </ImageView>
+                        <TextView
+                            android:id="@+id/text_privacy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            style="@style/Hyperlink"
+                            android:text="개인정보처리방침">
+                        </TextView>
                     </LinearLayout>
                     <LinearLayout
                         android:id="@+id/empty_layout"

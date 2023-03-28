@@ -17,6 +17,7 @@ import com.sikstree.minecraftstatus.viewModel.MainViewModel.Companion.TAG_HOME
 import com.sikstree.minecraftstatus.viewModel.MainViewModel.Companion.TAG_SERVERLIST
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,9 +34,18 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.setFragment(TAG_HOME, HomeFragment(), fragmentManager)
 
+        var requestConfiguration : RequestConfiguration = MobileAds.
+        getRequestConfiguration().toBuilder().
+            setTagForChildDirectedTreatment(
+                RequestConfiguration.TAG_FOR_CHILD_DIRECTED_TREATMENT_TRUE).
+                setMaxAdContentRating(RequestConfiguration.MAX_AD_CONTENT_RATING_G).
+                build()
+
         // 1. 모바일광고 SDK 초기화
         MobileAds.initialize(this) {}
 
+        MobileAds.setRequestConfiguration(requestConfiguration)
+        
         // 2. 광고 띄우기\
         val adRequest = AdRequest.Builder().build()
         binding.adView.loadAd(adRequest)
