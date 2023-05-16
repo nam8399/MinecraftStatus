@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.sikstree.minecraftstatus.Data.MyApplication
 import com.sikstree.minecraftstatus.Model.Event
 import com.sikstree.minecraftstatus.Model.MinecraftAPI
@@ -87,7 +88,7 @@ class HomeViewModel( application: Application) : AndroidViewModel(application){
 
         val service = retrofit.create(MinecraftAPI::class.java);
 
-        CoroutineScope(Dispatchers.Main).launch { // 코루틴 사용하여 retorfit2 GET 호출
+        viewModelScope.launch { // 코루틴 사용하여 retorfit2 GET 호출
             try {
                 if ("".equals(serverHost) && "".equals(MyApplication.prefs.getString("serverHost", ""))) { // 저장된 메인 서버 주소값과 입력된 메인 서버 주소값이 없을경우
                     showDialog.value = false

@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.sikstree.minecraftstatus.Model.Event
 import com.sikstree.minecraftstatus.Model.MinecraftAPI
 import kotlinx.coroutines.CoroutineScope
@@ -62,7 +63,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application){
 
         val service = retrofit.create(MinecraftAPI::class.java);
 
-        CoroutineScope(Dispatchers.Main).launch { // 코루틴 사용하여 retorfit2 GET 호출
+        viewModelScope.launch { // 코루틴 사용하여 retorfit2 GET 호출
             try {
                 Log.d(title, "inputuserID :" +  userID)
                 val result = service.getSuspendUUID(userID)
@@ -95,7 +96,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application){
 
         val service = retrofit.create(MinecraftAPI::class.java);
 
-        CoroutineScope(Dispatchers.Main).launch { // 코루틴 사용하여 retorfit2 GET 호출
+        viewModelScope.launch { // 코루틴 사용하여 retorfit2 GET 호출
             try {
                 Log.d(title, "uuid :" +  uuid)
                 val result = service.getSuspendSkin(uuid)
